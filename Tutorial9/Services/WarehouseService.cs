@@ -14,7 +14,7 @@ public class WarehouseService : IWarehouseService
 
     public async Task<bool> WithGivenIdExists(int Id)
     {
-        var query = "SELECT 1 FROM Warehouse WHERE Id = @ID";
+        var query = "SELECT 1 FROM Warehouse WHERE IdWarehouse = @ID";
         
         await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
         await using SqlCommand command = new SqlCommand();
@@ -32,7 +32,7 @@ public class WarehouseService : IWarehouseService
 
     public async Task<WarehouseDto> GetWarehouse(int Id)
     {
-        var query = "SELECT Id, Name, Description FROM Warehouse WHERE Id = @ID";
+        var query = "SELECT IdWarehouse, Name, Address FROM Warehouse WHERE IdWarehouse = @ID";
         
         await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
         await using SqlCommand command = new SqlCommand();
@@ -49,9 +49,9 @@ public class WarehouseService : IWarehouseService
         {
             return new WarehouseDto
             {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Id = reader.GetInt32(reader.GetOrdinal("IdWarehouse")),
                 Name = reader.GetString(reader.GetOrdinal("Name")),
-                Description = reader.GetString(reader.GetOrdinal("Description")),
+                Address = reader.GetString(reader.GetOrdinal("Address")),
             };
         }
 
