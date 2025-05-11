@@ -6,4 +6,5 @@ public interface IWarehouseService
 {
     Task<bool> WithGivenIdExists(int Id);
     Task<WarehouseDto> GetWarehouse(int Id);
+    Task<int?> AddProduct(NewProductToWarehouseDto request);
 }

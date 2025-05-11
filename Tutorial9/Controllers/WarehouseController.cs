@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tutorial9.Services;
+using Tutorial9.Model.DTOs;
 
 namespace Tutorial9.Controllers;
 
@@ -28,5 +29,19 @@ public class WarehouseController : ControllerBase
     {
         var exists = await _warehouseService.WithGivenIdExists(id);
         return Ok(exists);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> AddProductToWarehouse(NewProductToWarehouseDto request)
+    {
+        if (request.Amount <= 0)
+            return BadRequest("Amount must be greater than 0.");
+
+        var success = await _warehouseService.AddProduct(request);
+    
+        if (success is null)
+            return BadRequest("Validation failed or data not found.");
+
+        return Ok(success);
     }
 }
